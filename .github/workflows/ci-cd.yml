@@ -1,0 +1,16 @@
+name: Build, Push, and Deploy Image
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  id-token: write 
+  contents: read
+  pull-requests: write 
+
+env:
+  AWS_REGION: us-east-1
+  AWS_ROLE: ${{ secrets.AWS_ACTIONS_ROLE }}
