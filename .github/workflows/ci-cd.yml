@@ -14,3 +14,23 @@ permissions:
 env:
   AWS_REGION: us-east-1
   AWS_ROLE: ${{ secrets.AWS_ACTIONS_ROLE }}
+
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    outputs:  # Define outputs for the Deploy job
+      image-uri: ${{ steps.set-image.outputs.image-uri }}
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+      
+      - name: AWS Creds Config 
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.AWS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Login to ECR 
+        uses: aws-actions/amazon-ecr-login@v1
+
